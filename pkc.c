@@ -1277,56 +1277,68 @@ int main(int argc, char *argv[]) {
 
     double start_time = 0;
   
-    /* Serial Algorithms */
-    printf("Test the serial algorithms: \n");
+    // /* Serial Algorithms */
+    // printf("Test the serial algorithms: \n");
+
+    // start_time = timer();
+    // BZ_kCores(&g, core);
+    // fprintf(stderr, "BZ time: %9.3lf sec\n", timer() - start_time);
+    // fprintf(stderr, "done.\n");
+
+    // start_time = timer();
+    // serial_ParK(&g, core);
+    // fprintf(stderr, "Serial ParK time: %9.3lf sec\n", timer() - start_time);
+    // fprintf(stderr, "done.\n");
+
+    // start_time = timer();
+    // serial_PKC_org(&g, core);
+    // fprintf(stderr, "Serial PKC-org time: %9.3lf sec\n", timer() - start_time);
+    // fprintf(stderr, "done.\n");
+
+
+    // start_time = timer();
+    // serial_PKC(&g, core);
+    // fprintf(stderr, "Serial PKC time: %9.3lf sec\n", timer() - start_time);
+    // fprintf(stderr, "done.\n");
+
+    // /* Parallel Algorithms */
+    // printf("Test Parallel Algorithms \n");
+
+    // start_time = timer();
+    // ParK(&g, core);
+    // fprintf(stderr, "ParK time: %9.3lf sec\n", timer() - start_time);
+    // fprintf(stderr, "done.\n");
+
+    // start_time = timer();
+    // KcoreMPM_async(&g, core);
+    // fprintf(stderr, "MPM time: %9.3lf sec\n", timer() - start_time);
+    // fprintf(stderr, "done.\n");
+
+    // start_time = timer();
+    // PKC_org(&g, core);
+    // fprintf(stderr, "PKC-org time: %9.3lf sec\n", timer() - start_time);
+    // fprintf(stderr, "done.\n");
+
 
     start_time = timer();
-    BZ_kCores(&g, core);
-    fprintf(stderr, "BZ time: %9.3lf sec\n", timer() - start_time);
+    PKC(&g, core);
+    fprintf(stderr, "PKC time: %9.3lf sec\n", timer() - start_time);
     fprintf(stderr, "done.\n");
 
-    start_time = timer();
-    serial_ParK(&g, core);
-    fprintf(stderr, "Serial ParK time: %9.3lf sec\n", timer() - start_time);
-    fprintf(stderr, "done.\n");
-
-    start_time = timer();
-    serial_PKC_org(&g, core);
-    fprintf(stderr, "Serial PKC-org time: %9.3lf sec\n", timer() - start_time);
-    fprintf(stderr, "done.\n");
-
-
-    start_time = timer();
-    serial_PKC(&g, core);
-    fprintf(stderr, "Serial PKC time: %9.3lf sec\n", timer() - start_time);
-    fprintf(stderr, "done.\n");
-
-    /* Parallel Algorithms */
-    printf("Test Parallel Algorithms \n");
-
-    start_time = timer();
-    ParK(&g, core);
-    fprintf(stderr, "ParK time: %9.3lf sec\n", timer() - start_time);
-    fprintf(stderr, "done.\n");
-
-    start_time = timer();
-    KcoreMPM_async(&g, core);
-    fprintf(stderr, "MPM time: %9.3lf sec\n", timer() - start_time);
-    fprintf(stderr, "done.\n");
-
-    start_time = timer();
-    PKC_org(&g, core);
-    fprintf(stderr, "PKC-org time: %9.3lf sec\n", timer() - start_time);
-    fprintf(stderr, "done.\n");
-
-
-    /* If the graph has atlest 1000 vertices use PKC  */
-    if( n > 1000 ) {
-	start_time = timer();
-        PKC(&g, core);
-        fprintf(stderr, "PKC time: %9.3lf sec\n", timer() - start_time);
-        fprintf(stderr, "done.\n");
+    if (argc < 3) {
+        fprintf(stderr, "No output file detected");
+        exit(0);
     }
+
+    FILE *fout = fopen(argv[2], "w");
+    if (fout == NULL) {
+        perror("fopen");
+        return 1;
+    }
+
+    for (int i = 0; i < n; i++)
+        fprintf(fout, "%d,%d\n", i, core[i]);
+    fclose(fout);
 
 /*******************************************************************************************/
     free(core);
@@ -1334,4 +1346,3 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
-
