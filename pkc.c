@@ -91,7 +91,7 @@ int load_graph_from_file(char *filename, graph_t *g) {
     double t0 = timer();
 
     //Read N and M
-    fscanf(infp, "%ld %ld\n", &(g->n), &(g->m));
+    fscanf(infp, "%ld,%ld\n", &(g->n), &(g->m));
     printf("N: %ld, M: %ld \n", g->n, g->m);
 
     long m = 0;
@@ -106,7 +106,7 @@ int load_graph_from_file(char *filename, graph_t *g) {
     }
 
     vid_t u, v;
-    while( fscanf(infp, "%u %u\n", &u, &v) != EOF ) {
+    while( fscanf(infp, "%u,%u\n", &u, &v) != EOF ) {
 	m++;
 	g->num_edges[u]++;
 	g->num_edges[v]++;
@@ -155,10 +155,10 @@ int load_graph_from_file(char *filename, graph_t *g) {
     }
 
     //Read N and M
-    fscanf(infp, "%ld %ld\n", &(g->n), &(g->m));
+    fscanf(infp, "%ld,%ld\n", &(g->n), &(g->m));
 
     //Read the edges
-    while( fscanf(infp, "%u %u\n", &u, &v) != EOF ) {
+    while( fscanf(infp, "%u,%u\n", &u, &v) != EOF ) {
 	g->adj[ temp_num_edges[u]  ] = v;
 	temp_num_edges[u]++;
 	g->adj[ temp_num_edges[v] ] = u;
